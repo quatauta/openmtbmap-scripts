@@ -168,8 +168,6 @@ end
 if __FILE__ == $0
   Process.setpriority(Process::PRIO_PROCESS, 0, 19)
 
-  max_arg_size = ARGV.max_by { |a| a.size }.size
-
   ARGV.each do |archive|
     begin
       puts(archive)
