@@ -1,6 +1,4 @@
 ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/mtblegend.exe
-ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/openmtbmap_style.zip
-ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/contourlines/openmtbmap_contourline_scripts.zip
 
 ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/germany/mtbrheinland-pfalz.exe
 ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/germany/mtbsaarland.exe
