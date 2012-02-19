@@ -43,9 +43,9 @@ module OpenMtbMap
     OpenMtbMap.extract(archive, dir)
   
     Dir.chdir(dir) do
-      maps << create_maps(name,             typ, date, "6*.img")
-      maps << create_maps(name + " srtm",   typ, date, "7*.img")
-      maps << create_maps(name + " w/srtm", typ, date, "[67]*.img")
+      maps << create_map(name,             typ, date, "6*.img")
+      maps << create_map(name + " srtm",   typ, date, "7*.img")
+      maps << create_map(name + " w/srtm", typ, date, "[67]*.img")
     end
 
     maps.compact!
