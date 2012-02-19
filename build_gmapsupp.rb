@@ -43,9 +43,9 @@ module OpenMtbMap
     OpenMtbMap.extract(archive, dir)
   
     Dir.chdir(dir) do
-      map_files << build_img(name,                typ, date, "6*.img")
-      map_files << build_img(name + " srtm-only", typ, date, "7*.img")
-      map_files << build_img(name + " srtm",      typ, date, "[67]*.img")
+      map_files << build_img(name,             typ, date, "6*.img")
+      map_files << build_img(name + " srtm",   typ, date, "7*.img")
+      map_files << build_img(name + " w/srtm", typ, date, "[67]*.img")
     end
 
     map_files.compact!
