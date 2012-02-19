@@ -14,12 +14,12 @@ end
 
 
 module OpenMtbMap
-  def self.build_img(name, typ, date, pattern)
-    map_file = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
+  def self.create_map(name, typ, date, pattern)
+    file     = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
     id       = map_id_from_files(".", pattern)
     gmt_typ  = prepare_typ(typ, id)
     gmt_args = '-j -o "%{file}" -f "%{id}" -m "%{name}" %{pattern} "%{typ}"' % {
-      :file    => map_file,
+      :file    => file,
       :id      => id,
       :name    => name,
       :pattern => pattern,
@@ -28,8 +28,8 @@ module OpenMtbMap
 
     exit_status = run_gmt(gmt_args)
 
-    if 0 == exit_status && File.exists?(map_file)
-      map_file
+    if 0 == exit_status && File.exists?(file)
+      file
     end
   end
 
@@ -38,23 +38,23 @@ module OpenMtbMap
     date       = File.mtime(archive).strftime("%F")
     dir        = File.join(File.dirname(archive), short_name)
     name       = "Openmtbmap #{short_name} #{date} #{typ}"
-    map_files  = []
+    maps       = []
 
     OpenMtbMap.extract(archive, dir)
   
     Dir.chdir(dir) do
-      map_files << build_img(name,             typ, date, "6*.img")
-      map_files << build_img(name + " srtm",   typ, date, "7*.img")
-      map_files << build_img(name + " w/srtm", typ, date, "[67]*.img")
+      maps << create_maps(name,             typ, date, "6*.img")
+      maps << create_maps(name + " srtm",   typ, date, "7*.img")
+      maps << create_maps(name + " w/srtm", typ, date, "[67]*.img")
     end
 
-    map_files.compact!
-    map_files.each do |map_file|
-      FileUtils.mv(File.join(dir, map_file), ".")
+    maps.compact!
+    maps.each do |map|
+      FileUtils.mv(File.join(dir, map), ".")
     end
     
     FileUtils.remove_entry_secure(dir, true)
-    map_files
+    maps
   end
   
   def self.extract(archive, output_dir)
