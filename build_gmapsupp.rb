@@ -15,14 +15,13 @@ end
 
 module OpenMtbMap
   def self.build_img(name, typ, date, pattern)
-    map_name = "Openmtbmap #{name} #{date} #{typ}".gsub("_", " ")
-    map_file = map_name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
+    map_file = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
     id       = map_id_from_files(".", pattern)
     gmt_typ  = prepare_typ(typ, id)
     gmt_args = '-j -o "%{file}" -f "%{id}" -m "%{name}" %{pattern} "%{typ}"' % {
       :file    => map_file,
       :id      => id,
-      :name    => map_name,
+      :name    => name,
       :pattern => pattern,
       :typ     => gmt_typ,
     }
@@ -35,10 +34,11 @@ module OpenMtbMap
   end
 
   def self.create_maps(archive, typ = "clas")
-    date = File.mtime(archive).strftime("%F")
-    name = short_map_name(archive)
-    dir  = File.join(File.dirname(archive), name)
-    map_files = []
+    short_name = short_map_name(archive)
+    date       = File.mtime(archive).strftime("%F")
+    dir        = File.join(File.dirname(archive), short_name)
+    name       = "Openmtbmap #{short_name} #{date} #{typ}"
+    map_files  = []
 
     OpenMtbMap.extract(archive, dir)
   
@@ -49,7 +49,6 @@ module OpenMtbMap
     end
 
     map_files.compact!
-
     map_files.each do |map_file|
       FileUtils.mv(File.join(dir, map_file), ".")
     end
