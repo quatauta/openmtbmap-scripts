@@ -16,7 +16,7 @@ end
 module OpenMtbMap
   def self.build_img(name, typ, date, pattern)
     map_name = "Openmtbmap #{name} #{date} #{typ}".gsub("_", " ")
-    map_file = map_name.downcase.gsub(" ", "_") + ".img"
+    map_file = map_name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
     id       = map_id_from_files(".", pattern)
     gmt_typ  = prepare_typ(typ, id)
     gmt_args = '-j -o "%{file}" -f "%{id}" -m "%{name}" %{pattern} "%{typ}"' % {
