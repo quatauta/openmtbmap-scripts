@@ -1,3 +1,4 @@
+http://www.mkgmap.org.uk/snapshots/mkgmap-latest.tar.gz
 ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/mtblegend.exe
 
 ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/germany/mtbrheinland-pfalz.exe
