@@ -186,7 +186,7 @@ module OpenMtbMap
   end
 
   def self.run_mkgmap(*args)
-    run("sh", "-c", "java -Xmx3072M -jar ../mkgmap.jar " + args.join(" "))
+    run("sh", "-c", "java -Xmx3584M -jar ../mkgmap.jar " + args.join(" "))
   end
 
   def self.short_map_name(filename)
