@@ -3,6 +3,7 @@
 require 'ap'
 require 'fileutils'
 require 'open3'
+require 'time'
 
 
 class FileNotFoundError < StandardError
@@ -14,23 +15,99 @@ end
 
 
 module OpenMtbMap
+  def self.args_for_gmt(options = {})
+    opts = {
+      :file    => "gmapsupp.img",
+      :fid     => 6001,
+      :name    => "GMAPSUPP",
+      :pattern => "[67]*.img",
+      :typ     => "a.typ",
+    }.merge!(options)
+
+    gmt_args = []
+    gmt_args << '-j'
+    gmt_args << '-o "%s"' % opts[:file]
+    gmt_args << '-f "%s"' % opts[:fid]
+    gmt_args << '-m "%s"' % opts[:name]
+    gmt_args << opts[:pattern]
+    gmt_args << '"%s"' % opts[:typ]
+    
+    gmt_args.join(" ")
+  end
+
+  def self.args_for_mkgmap(options = {})
+    opts = {
+      :file    => "gmapsupp.img",
+      :fid     => 6001,
+      :name    => "GMAPSUPP",
+      :pattern => "[67]*.img",
+      :typ     => "a.typ",
+    }.merge!(options)
+
+    mkgmap_args = []
+    mkgmap_args << '--product-id=1'
+    mkgmap_args << '--family-id="%s"'   % opts[:fid]
+    mkgmap_args << '--description="%s"' % opts[:name]
+    mkgmap_args << '--family-name="%s"' % opts[:name]
+    mkgmap_args << '--series-name="%s"' % opts[:name]
+    mkgmap_args << '--area-name'
+    mkgmap_args << '--check-roundabout-flares'
+    mkgmap_args << '--check-roundabouts'
+    mkgmap_args << '--gmapsupp'
+    mkgmap_args << '--index'
+    mkgmap_args << '--lower-case'
+    mkgmap_args << '--make-all-cycleways'
+    mkgmap_args << '--make-cycleways'
+    mkgmap_args << '--make-opposite-cycleways'
+    mkgmap_args << '--make-poi-index'
+    mkgmap_args << '--max-jobs'
+    mkgmap_args << '--net'
+    mkgmap_args << '--route'
+    mkgmap_args << '--show-profiles=1'
+    mkgmap_args << '--verbose'
+    mkgmap_args << opts[:pattern]
+    mkgmap_args << '"%s"' % opts[:typ]
+
+    mkgmap_args.join(" ")
+  end
+
   def self.create_map(name, typ, date, pattern)
-    file     = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
-    id       = map_id_from_files(".", pattern)
-    gmt_typ  = prepare_typ(typ, id)
-    gmt_args = '-j -o "%{file}" -f "%{id}" -m "%{name}" %{pattern} "%{typ}"' % {
-      :file    => file,
-      :id      => id,
-      :name    => name,
-      :pattern => pattern,
-      :typ     => gmt_typ,
-    }
+    file         = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
+    id           = map_id_from_files(".", pattern)
+    prepared_typ = prepare_typ(typ, id)
 
-    exit_status = run_gmt(gmt_args)
-
+    if /6.*\.img/i =~ pattern
+      exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
+                                      :pattern => pattern, :typ => prepared_typ)
+    else
+      exit_status = create_map_gmt(:file => file, :fid => id, :name => name,
+                                   :pattern => pattern, :typ => prepared_typ)
+    end
+    
     if 0 == exit_status && File.exists?(file)
+      file_time = Time.parse(date)
+      File.utime(file_time, file_time, file)
       file
     end
+  end
+
+  def self.create_map_gmt(options = {})
+    run_gmt(args_for_gmt(options))
+  end
+
+  def self.create_map_mkgmap(options = {})
+    opts = {
+      :file => "gmapsupp.img",
+    }.merge!(options)
+
+    exit_status = run_mkgmap(args_for_mkgmap(opts))
+
+    begin
+      File.rename("gmapsupp.img", opts[:file])
+    rescue
+    end
+
+    exit_status
   end
 
   def self.create_maps(archive, typ = "clas")
@@ -74,15 +151,15 @@ module OpenMtbMap
   end
 
   def self.prepare_typ(typ, fid)
-    gmt_typ = "01002468.typ"
-    file    = Dir.glob("#{typ}*.typ").first()
+    prepared_typ = "prepared.typ"
+    file         = Dir.glob("#{typ}*.typ").first()
 
     if file
-      FileUtils.copy(file, gmt_typ)
-      run_gmt("-wy", fid, gmt_typ)
+      FileUtils.copy(file, prepared_typ)
+      run_gmt("-wy", fid, prepared_typ)
     end
 
-    gmt_typ
+    prepared_typ
   end
 
   def self.rename_files_downcase(dir)
@@ -106,6 +183,10 @@ module OpenMtbMap
 
   def self.run_gmt(*args)
     run("sh", "-c", "wine gmt " + args.join(" "))
+  end
+
+  def self.run_mkgmap(*args)
+    run("sh", "-c", "java -Xmx3072M -jar ../mkgmap.jar " + args.join(" "))
   end
 
   def self.short_map_name(filename)
