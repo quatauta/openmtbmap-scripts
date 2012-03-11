@@ -4,10 +4,12 @@ URL_FILES="${@:-urls.txt}"
 
 pushd "$(dirname "${0}")" >/dev/null
 
+# Download all files listed in $URL_FILES
 for URL_FILE in ${URL_FILES} ; do
     wget -N -i "${URL_FILE}"
 done
 
+# I want all filenames lowercase
 ls *.1 >/dev/null 2>&1 && mmv -v '*.1' '#1'
 
 # Unpack latest mkgmap.jar
