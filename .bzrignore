@@ -1,6 +1,5 @@
 *.exe
 *.img
 *.zip
+mkgmap*.jar
 mkgmap-latest.tar.gz
-mkgmap-r*.jar
-mkgmap.jar
