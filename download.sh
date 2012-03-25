@@ -12,10 +12,12 @@ done
 # I want all filenames lowercase
 ls *.1 >/dev/null 2>&1 && mmv -v '*.1' '#1'
 
-# Unpack latest mkgmap.jar
+# Download and unpack latest mkgmap.jar
+wget -N http://www.mkgmap.org.uk/snapshots/mkgmap-latest.tar.gz
+
 if [ mkgmap-latest.tar.gz -nt mkgmap.jar ] ; then
     tar atf mkgmap-latest.tar.gz |
-    fgrep mkgmap.jar |
+    grep 'mkgmap\.jar' |
     while read MKGMAP ; do
         REV="${MKGMAP#mkgmap-r}"
         REV="${REV%/*}"
