@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'ap'
 require 'fileutils'
 require 'open3'
 require 'time'
