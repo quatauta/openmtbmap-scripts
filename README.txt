@@ -1,69 +1,77 @@
 Openmtbmap Skripte zum Herunterladen der notwendigen Dateien und erstellen der img-Dateien für Garmin GPS-Geräte
 
 Kurzanleitung:
-  - Konsole/Terminal öffnen und ins Verzeichnis wechseln, in dem die Dateien entpackt
-    wurden
-  - Dateien download.sh und build.rb ausführbar machen:
-      chmod a+x download.sh build.rb   (im Terminal starten)
-  - Datei urls.txt anpassen, damit alle notwendigen Kartendownloads enthalten sind. Die
-    verfügbaren Dateien sind unter ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/
-    und http://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/ zu finden. Einfach die URLs
-    in die Datei urls.txt kopieren. (Es sollte keinen Unterschied machen, ob FTP oder HTTP
-    benutzt wird.)
-  - Dateien herunterladen:
-      ./download.sh      (im Terminal starten)
-  - img-Dateien erstellen:
-      ./build.rb *.exe   (im Terminal starten)
-  - img-Dateien auf Speicherkarte des Garmin GPS kopieren, Unterverzeichnis Garmin/.
+  - Konsole/Terminal öffnen und ins Verzeichnis wechseln, in dem die Dateien
+    entpackt wurden
+  - Dateien download.sh und build.rb ausführbar machen: chmod a+x download.sh
+    build.rb   (im Terminal starten)
+  - Datei urls.txt anpassen, damit alle notwendigen Kartendownloads enthalten
+    sind. Die verfügbaren Dateien sind unter
+    ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/ und
+    http://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/ zu finden. Einfach
+    die URLs in die Datei urls.txt kopieren. (Es sollte keinen Unterschied
+    machen, ob FTP oder HTTP benutzt wird.)
+  - Dateien herunterladen: ./download.sh      (im Terminal starten)
+  - img-Dateien erstellen: ./build.rb *.exe   (im Terminal starten)
+  - img-Dateien auf Speicherkarte des Garmin GPS kopieren, Unterverzeichnis
+    Garmin/.
 
 download.sh:
-  Dateien der Openmtbmap herunterladen. Die URLs der Dateien stehen in urls.txt oder einer
-  Datei, die als Parameter übergeben wird. Die Dateien werden mit wget heruntergeladen.
-  Falls die Datei auf dem Server neuer ist, als die auf der Festplatte vorhandene Datei,
-  wird sie neu heruntergeladen. Datum und Uhrzeit der Datei auf der Festplatte wird von
-  wget so eingestellt, wie für die Datei auf dem Server.
+
+  Dateien der Openmtbmap herunterladen. Die URLs der Dateien stehen in urls.txt
+  oder einer Datei, die als Parameter übergeben wird. Die Dateien werden mit
+  wget heruntergeladen. Falls die Datei auf dem Server neuer ist, als die auf
+  der Festplatte vorhandene Datei, wird sie neu heruntergeladen. Datum und
+  Uhrzeit der Datei auf der Festplatte wird von wget so eingestellt, wie für die
+  Datei auf dem Server.
 
   Zusätzlich wird mkgmap heruntergeladen, falls es unter
-  http://www.mkgmap.org.uk/snapshots/mkgmap-latest.tar.gz eine neue Fassung gibt. Die
-  Datei mkgmap.jar wird automatisch daraus entpackt und mit der Subversion Revisionsnummer
-  benannt und ein symbolischer Verweis (symlink) mkgamp.jar -> mkgmap-XXXX.jar erstellt.
+  http://www.mkgmap.org.uk/snapshots/mkgmap-latest.tar.gz eine neue Fassung
+  gibt. Die Datei mkgmap.jar wird automatisch daraus entpackt und mit der
+  Subversion Revisionsnummer benannt und ein symbolischer Verweis (symlink)
+  mkgamp.jar -> mkgmap-XXXX.jar erstellt.
 
 urls.txt:
-  Liste der URLs, die heruntergeladen werden sollen. Typischerweise die Dateien, die man
-  häufig benutzt und oft regelmäßig aktualisieren will.
+
+  Liste der URLs, die heruntergeladen werden sollen. Typischerweise die Dateien,
+  die man häufig benutzt und oft regelmäßig aktualisieren will.
 
 build.rb:
-  Erstellt aus den heruntergeladenen Karten img-Dateien für Garmin GPS-Geräte. Dazu wird
-  gmx.exe mit Wine gestartet und mkgmap mit der Java Laufzeitumgebung/Runtime.
 
-  Die heruntergeladenen exe-Dateien werden als Parameter übergeben. Daraus werden
-  img-Dateien erstellt. Die Namen der img-Dateien werden ausgehend vom Namen der
-  exe-Datei, dem Dateidatum und dem Typ-Style generiert.
+  Erstellt aus den heruntergeladenen Karten img-Dateien für Garmin GPS-Geräte.
+  Dazu wird gmx.exe mit Wine gestartet und mkgmap mit der Java
+  Laufzeitumgebung/Runtime.
+
+  Die heruntergeladenen exe-Dateien werden als Parameter übergeben. Daraus
+  werden img-Dateien erstellt. Die Namen der img-Dateien werden ausgehend vom
+  Namen der exe-Datei, dem Dateidatum und dem Typ-Style generiert.
   
-  Falls in einer exe-Datei die Karte mit Höhenlinien enthalten ist, wird eine img-Datei
-  mit der Karte und eine zweite img-Datei nur mit den Höhenlinien erstellt. So können die
-  Karte und Höhenlinien unabhängig am GPS-Gerät aktiviert werden. Beim Oregon 450
-  funktioniert das zumindest. Der Name der Karte nur mit den Höhenlinien wird im Oregon
+  Falls in einer exe-Datei die Karte mit Höhenlinien enthalten ist, wird eine
+  img-Datei mit der Karte und eine zweite img-Datei nur mit den Höhenlinien
+  erstellt. So können die Karte und Höhenlinien unabhängig am GPS-Gerät
+  aktiviert werden. Beim Oregon 450 funktioniert das zumindest. Der Name der
+  Karte nur mit den Höhenlinien wird im Oregon
   450 mit "... srtm ..." angezeigt.
 
-  Durch entfernen des Kommentarzeichens '#' in Zeile 124 wird auch eine img-Datei
-  erstellt, die Karte und Höhenlinien enthält. Am Oregon 450 hat das den Nachteil, das in
-  der Liste der verfügbaren Karten je ein Eintrag für die Karte und die Höhenlinien steht,
-  allerdings haben beiden den gleichen Namen und können nicht unterschieden werden. Darum
-  benutze ich lieber getrennte img-Dateien für Karte und Höhenlinien.
+  Durch entfernen des Kommentarzeichens '#' in Zeile 124 wird auch eine
+  img-Datei erstellt, die Karte und Höhenlinien enthält. Am Oregon 450 hat das
+  den Nachteil, das in der Liste der verfügbaren Karten je ein Eintrag für die
+  Karte und die Höhenlinien steht, allerdings haben beiden den gleichen Namen
+  und können nicht unterschieden werden. Darum benutze ich lieber getrennte
+  img-Dateien für Karte und Höhenlinien.
 
-  Die img-Dateien für Rheinland-Pfalz, erstellt aus mtbrheinland-pfalz.exe heißen zum
-  Beispiel:
+  Die img-Dateien für Rheinland-Pfalz, erstellt aus mtbrheinland-pfalz.exe
+  heißen zum Beispiel:
+
     openmtbmap_de-rp_2012-03-22_clas.img
     openmtbmap_de-rp_2012-03-22_clas_srtm.img
-               |     |          |    |
                |     |          |    `- Datei mit Höhenlinien (srtm) oder ohne
                |     |          `- Typ-Style "clas", siehe build.rb in Zeile 254
                |     `- Datum der Datei mtbrheinland-pfalz.exe
                `- Land, siehe build.rb ab Zeile 193 in Methode short_map_name()
 
-  Die img-Dateien einfach auf die Speicherkarte des GPS-Gerät kopieren ins Verzeichnis
-  Garmin/.
+  Die img-Dateien einfach auf die Speicherkarte des GPS-Gerät kopieren ins
+  Verzeichnis Garmin/.
 
 Notwendige Programme
  - Für download.sh:
