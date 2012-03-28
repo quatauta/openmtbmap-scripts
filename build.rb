@@ -56,13 +56,9 @@ module OpenMtbMap
     id           = map_id_from_files(".", pattern)
     typ_file     = Dir.glob("#{typ}*.typ").first()
 
-    if /6.*\.img/i =~ pattern
-      exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
-                                      :pattern => pattern, :typ => typ_file)
-    else
-      exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
-                                      :pattern => pattern, :typ => typ_file, :index => false)
-    end
+    exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
+                                    :pattern => pattern, :typ => typ_file,
+                                    :index => (/6.*\.img/i =~ pattern))
     
     if 0 == exit_status && File.exists?(file)
       file_time = Time.parse(date)
