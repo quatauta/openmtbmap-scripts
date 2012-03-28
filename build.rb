@@ -38,6 +38,7 @@ module OpenMtbMap
     opts = {
       :file    => "gmapsupp.img",
       :fid     => 6001,
+      :index   => true,
       :name    => "GMAPSUPP",
       :pattern => "[67]*.img",
       :typ     => "a.typ",
@@ -53,7 +54,7 @@ module OpenMtbMap
     mkgmap_args << '--check-roundabout-flares'
     mkgmap_args << '--check-roundabouts'
     mkgmap_args << '--gmapsupp'
-    mkgmap_args << '--index'
+    mkgmap_args << '--index' if opts[:index]
     mkgmap_args << '--lower-case'
     mkgmap_args << '--make-all-cycleways'
     mkgmap_args << '--make-cycleways'
@@ -79,8 +80,8 @@ module OpenMtbMap
       exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
                                       :pattern => pattern, :typ => prepared_typ)
     else
-      exit_status = create_map_gmt(:file => file, :fid => id, :name => name,
-                                   :pattern => pattern, :typ => prepared_typ)
+      exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
+                                      :pattern => pattern, :typ => prepared_typ, :index => false)
     end
     
     if 0 == exit_status && File.exists?(file)
