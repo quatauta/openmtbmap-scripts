@@ -130,8 +130,6 @@ module OpenMtbMap
   end
 
   def self.run_mkgmap(*args)
-    require 'ap'
-    ap(args)
     run("sh", "-c", "java -Xmx3584M -jar ../mkgmap.jar " + args.join(" "))
   end
 
