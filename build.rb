@@ -14,47 +14,25 @@ end
 
 
 module OpenMtbMap
-  def self.args_for_mkgmap(options = {})
-    opts = {
-      :file    => "gmapsupp.img",
-      :fid     => 6001,
-      :index   => true,
-      :name    => "GMAPSUPP",
-      :pattern => "[67]*.img",
-      :typ     => "a.typ",
-    }.merge!(options)
-
-    mkgmap_args = []
-    mkgmap_args << '--product-id=1'
-    mkgmap_args << '--family-id="%s"'   % opts[:fid]
-    mkgmap_args << '--description="%s"' % opts[:name]
-    mkgmap_args << '--family-name="%s"' % opts[:name]
-    mkgmap_args << '--series-name="%s"' % opts[:name]
-    mkgmap_args << '--area-name'
-    mkgmap_args << '--check-roundabout-flares'
-    mkgmap_args << '--check-roundabouts'
-    mkgmap_args << '--gmapsupp'
-    mkgmap_args << '--index' if opts[:index]
-    mkgmap_args << '--lower-case'
-    mkgmap_args << '--make-all-cycleways'
-    mkgmap_args << '--make-cycleways'
-    mkgmap_args << '--make-opposite-cycleways'
-    mkgmap_args << '--make-poi-index'
-    mkgmap_args << '--max-jobs'
-    mkgmap_args << '--net'
-    mkgmap_args << '--route'
-    mkgmap_args << '--show-profiles=1'
-    mkgmap_args << '--verbose'
-    mkgmap_args << opts[:pattern]
-    mkgmap_args << '"%s"' % opts[:typ]
-
-    mkgmap_args.join(" ")
-  end
+  MKGMAP_DEFAULT_ARGS = [ '--area-name',
+                          '--check-roundabout-flares',
+                          '--check-roundabouts',
+                          '--gmapsupp',
+                          '--lower-case',
+                          '--make-all-cycleways',
+                          '--make-cycleways',
+                          '--make-opposite-cycleways',
+                          '--make-poi-index',
+                          '--max-jobs',
+                          '--net',
+                          '--route',
+                          '--show-profiles=1',
+                          '--verbose', ]
 
   def self.create_map(name, typ, date, pattern)
-    file         = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
-    id           = map_id_from_files(".", pattern)
-    typ_file     = Dir.glob("#{typ}*.typ").first()
+    file     = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
+    id       = map_id_from_files(".", pattern)
+    typ_file = Dir.glob("#{typ}*.typ").first()
 
     exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
                                     :pattern => pattern, :typ => typ_file,
@@ -69,10 +47,24 @@ module OpenMtbMap
 
   def self.create_map_mkgmap(options = {})
     opts = {
-      :file => "gmapsupp.img",
+      :file    => "gmapsupp.img",
+      :fid     => 6001,
+      :index   => true,
+      :name    => "GMAPSUPP",
+      :pattern => "[67]*.img",
+      :typ     => "a.typ",
     }.merge!(options)
 
-    exit_status = run_mkgmap(args_for_mkgmap(opts))
+    args = MKGMAP_DEFAULT_ARGS.dup
+    args << '--index' if opts[:index]
+    args << '--family-id="%s"'   % opts[:fid]
+    args << '--description="%s"' % opts[:name]
+    args << '--family-name="%s"' % opts[:name]
+    args << '--series-name="%s"' % opts[:name]
+    args << opts[:pattern]
+    args << '"%s"' % opts[:typ]
+
+    exit_status = run_mkgmap(args)
 
     begin
       File.rename("gmapsupp.img", opts[:file])
@@ -142,6 +134,8 @@ module OpenMtbMap
   end
 
   def self.run_mkgmap(*args)
+    require 'ap'
+    ap(args)
     run("sh", "-c", "java -Xmx3584M -jar ../mkgmap.jar " + args.join(" "))
   end
 
