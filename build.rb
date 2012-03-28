@@ -55,8 +55,8 @@ module OpenMtbMap
       :typ     => "a.typ",
     }.merge!(options)
 
-    args = MKGMAP_DEFAULT_ARGS.dup
-    args << '--index' if opts[:index]
+    args  = MKGMAP_DEFAULT_ARGS.dup
+    args << '--index'           if opts[:index]
     args << '--family-id="%s"'   % opts[:fid]
     args << '--description="%s"' % opts[:name]
     args << '--family-name="%s"' % opts[:name]
