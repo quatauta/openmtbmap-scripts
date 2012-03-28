@@ -39,8 +39,7 @@ urls.txt:
 build.rb:
 
   Erstellt aus den heruntergeladenen Karten img-Dateien für Garmin GPS-Geräte.
-  Dazu wird gmx.exe mit Wine gestartet und mkgmap mit der Java
-  Laufzeitumgebung/Runtime.
+  Dazu wird mkgmap mit der Java Laufzeitumgebung/Runtime benötigt und benutzt.
 
   Die heruntergeladenen exe-Dateien werden als Parameter übergeben. Daraus
   werden img-Dateien erstellt. Die Namen der img-Dateien werden ausgehend vom
@@ -81,7 +80,6 @@ Notwendige Programme
    - grep
  - Für build.rb:
    - Ruby (bisher benutzt mit 1.8 und 1.9)
-   - Wine (bisher benutzt mit 1.4 und 1.5)
    - Java Laufzeitumgebung (bisher getestet mit OpenJDK/Icedtea 7)
    - 7-Zip für Linux (p7zip)
 

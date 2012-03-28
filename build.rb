@@ -14,26 +14,6 @@ end
 
 
 module OpenMtbMap
-  def self.args_for_gmt(options = {})
-    opts = {
-      :file    => "gmapsupp.img",
-      :fid     => 6001,
-      :name    => "GMAPSUPP",
-      :pattern => "[67]*.img",
-      :typ     => "a.typ",
-    }.merge!(options)
-
-    gmt_args = []
-    gmt_args << '-j'
-    gmt_args << '-o "%s"' % opts[:file]
-    gmt_args << '-f "%s"' % opts[:fid]
-    gmt_args << '-m "%s"' % opts[:name]
-    gmt_args << opts[:pattern]
-    gmt_args << '"%s"' % opts[:typ]
-    
-    gmt_args.join(" ")
-  end
-
   def self.args_for_mkgmap(options = {})
     opts = {
       :file    => "gmapsupp.img",
@@ -89,10 +69,6 @@ module OpenMtbMap
       File.utime(file_time, file_time, file)
       file
     end
-  end
-
-  def self.create_map_gmt(options = {})
-    run_gmt(args_for_gmt(options))
   end
 
   def self.create_map_mkgmap(options = {})
@@ -167,10 +143,6 @@ module OpenMtbMap
 
       exit_status
     }
-  end
-
-  def self.run_gmt(*args)
-    run("sh", "-c", "wine gmt " + args.join(" "))
   end
 
   def self.run_mkgmap(*args)
