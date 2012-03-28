@@ -66,11 +66,7 @@ module OpenMtbMap
 
     exit_status = run_mkgmap(args)
 
-    begin
-      File.rename("gmapsupp.img", opts[:file])
-    rescue
-    end
-
+    File.rename("gmapsupp.img", opts[:file])
     exit_status
   end
 
