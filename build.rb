@@ -74,14 +74,14 @@ module OpenMtbMap
   def self.create_map(name, typ, date, pattern)
     file         = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
     id           = map_id_from_files(".", pattern)
-    prepared_typ = prepare_typ(typ, id)
+    typ_file     = Dir.glob("#{typ}*.typ").first()
 
     if /6.*\.img/i =~ pattern
       exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
-                                      :pattern => pattern, :typ => prepared_typ)
+                                      :pattern => pattern, :typ => typ_file)
     else
       exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
-                                      :pattern => pattern, :typ => prepared_typ, :index => false)
+                                      :pattern => pattern, :typ => typ_file, :index => false)
     end
     
     if 0 == exit_status && File.exists?(file)
@@ -148,18 +148,6 @@ module OpenMtbMap
   def self.map_id_from_files(dir, pattern)
     filename = File.basename(Dir.glob(File.join(dir, pattern)).first())
     filename ? filename[0..3] : nil
-  end
-
-  def self.prepare_typ(typ, fid)
-    prepared_typ = "prepared.typ"
-    file         = Dir.glob("#{typ}*.typ").first()
-
-    if file
-      FileUtils.copy(file, prepared_typ)
-      run_gmt("-wy", fid, prepared_typ)
-    end
-
-    prepared_typ
   end
 
   def self.rename_files_downcase(dir)
