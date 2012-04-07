@@ -9,7 +9,7 @@ for URL_FILE in ${URL_FILES} ; do
     wget -N -i "${URL_FILE}"
 done
 
-# I want all filenames lowercase
+# Rename new downloads (*.1)
 ls *.1 >/dev/null 2>&1 && mmv -v '*.1' '#1'
 
 # Download and unpack latest mkgmap.jar
