@@ -1,0 +1,6 @@
+#!/bin/sh
+
+ssh-add
+bzr push
+bzr dpush git@github.com:quatauta/openmtbmap-scripts.git,branch=master
+bzr push --overwrite
