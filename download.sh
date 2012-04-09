@@ -15,6 +15,8 @@ ls *.1 >/dev/null 2>&1 && mmv -v '*.1' '#1'
 # Download and unpack latest mkgmap.jar
 wget -N http://www.mkgmap.org.uk/snapshots/mkgmap-latest.tar.gz
 
+chmod a-x *.exe *.tar.gz
+
 if [ mkgmap-latest.tar.gz -nt mkgmap.jar ] ; then
     tar atf mkgmap-latest.tar.gz |
     grep 'mkgmap\.jar' |
