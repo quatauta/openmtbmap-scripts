@@ -195,7 +195,7 @@ end
 
 if __FILE__ == $0
   Process.setpriority(Process::PRIO_PROCESS, 0, 19)
-  styles = (ARGV & OpenMtbMap::STYLES).last || OpenMtbMap::DEFAULT_STYLE
+  style = (ARGV & OpenMtbMap::STYLES).last || OpenMtbMap::DEFAULT_STYLE
 
   ARGV.each do |archive|
     if File.exists? archive
