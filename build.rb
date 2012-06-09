@@ -195,12 +195,13 @@ end
 
 if __FILE__ == $0
   Process.setpriority(Process::PRIO_PROCESS, 0, 19)
+  styles = (ARGV & OpenMtbMap::STYLES).last || OpenMtbMap::DEFAULT_STYLE
 
   ARGV.each do |archive|
     if File.exists? archive
       begin
         puts(archive)
-        maps = OpenMtbMap.create_maps(archive, OpenMtbMap::DEFAULT_STYLE)
+        maps = OpenMtbMap.create_maps(archive, style)
         maps.each { |map| puts("  #{map}") }
       rescue StandardError => e
         puts("  %s: %s" % [e.class, e.message])
