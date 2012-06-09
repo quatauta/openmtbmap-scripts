@@ -44,7 +44,18 @@ build.rb:
   Die heruntergeladenen exe-Dateien werden als Parameter übergeben. Daraus
   werden img-Dateien erstellt. Die Namen der img-Dateien werden ausgehend vom
   Namen der exe-Datei, dem Dateidatum und dem Typ-Style generiert.
-  
+
+  Als zusätzliche Parameter können die Typ-Styles angegeben werden, mit denen
+  eine img-Datei erstellt werden soll. Wenn kein Typ-Style als Parameter
+  übergeben wird, wird "wide" benutzt. (Einfach, weil dieser mir an meinem
+  GPS-Gerät am besten gefällt.) Die möglichen Typ-Styles sind clas, easy, hike,
+  thin, trad und wide. Wenn diese "Wörter" in den Parametern vorkommen, werden
+  sie als Typ-Styles betrachtet. Für jeden angegebenen Typ-Style wird eine
+  img-Datei erstellt, gegebenenfalls mehrere.
+
+  Typ-Style-Namen und exe-Dateinamen können in beliebiger Reihenfolge als
+  Parameter angegeben werden.
+
   Falls in einer exe-Datei die Karte mit Höhenlinien enthalten ist, wird eine
   img-Datei mit der Karte und eine zweite img-Datei nur mit den Höhenlinien
   erstellt. So können die Karte und Höhenlinien unabhängig am GPS-Gerät
