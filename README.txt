@@ -1,3 +1,5 @@
+# vim:set tw=80:
+
 Openmtbmap Skripte zum Herunterladen der notwendigen Dateien und erstellen der img-Dateien für Garmin GPS-Geräte
 
 Kurzanleitung:
