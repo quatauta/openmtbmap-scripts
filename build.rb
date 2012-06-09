@@ -15,6 +15,7 @@ end
 
 module OpenMtbMap
   DEFAULT_STYLE = "wide"
+  STYLES        = %w[ clas easy hike thin trad wide ]
 
   MKGMAP_DEFAULT_ARGS = [ '--area-name',
                           '--check-roundabout-flares',
@@ -196,12 +197,14 @@ if __FILE__ == $0
   Process.setpriority(Process::PRIO_PROCESS, 0, 19)
 
   ARGV.each do |archive|
-    begin
-      puts(archive)
-      maps = OpenMtbMap.create_maps(archive, OpenMtbMap::DEFAULT_STYLE)
-      maps.each { |map| puts("  #{map}") }
-    rescue StandardError => e
-      puts("  %s: %s" % [e.class, e.message])
+    if File.exists? archive
+      begin
+        puts(archive)
+        maps = OpenMtbMap.create_maps(archive, OpenMtbMap::DEFAULT_STYLE)
+        maps.each { |map| puts("  #{map}") }
+      rescue StandardError => e
+        puts("  %s: %s" % [e.class, e.message])
+      end
     end
   end
 end
