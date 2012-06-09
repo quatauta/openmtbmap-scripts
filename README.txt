@@ -103,7 +103,7 @@ ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/germany/mtbrheinland-pfalz.
 ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/germany/mtbsaarland.exe
 ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/mtbluxembourg.exe
 
-# ./download.sh 
+# ./download.sh
 --2012-03-25 13:00:40--  ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/germany/mtbrheinland-pfalz.exe
 [...]
 Datei auf dem Server nicht neuer als die lokale Datei »»mtbrheinland-pfalz.exe«« -- kein Download.
@@ -120,7 +120,7 @@ Datei auf dem Server nicht neuer als die lokale Datei »»mkgmap-latest.tar.gz«
 mkgmap-r2248/mkgmap.jar
 „mkgmap.jar“ -> „mkgmap-2248.jar“
 
-# ./build.rb 
+# ./build.rb
 mtbluxembourg.exe
   openmtbmap_lu_2012-03-22_clas.img
   openmtbmap_lu_2012-03-22_clas_srtm.img

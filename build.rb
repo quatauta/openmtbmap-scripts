@@ -40,7 +40,7 @@ module OpenMtbMap
     exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
                                     :pattern => pattern, :style => style_file,
                                     :index => (/6.*\.img/i =~ pattern))
-    
+
     if 0 == exit_status && File.exists?(file)
       file_time = Time.parse(date)
       File.utime(file_time, file_time, file)
@@ -81,7 +81,7 @@ module OpenMtbMap
     maps       = []
 
     OpenMtbMap.extract(archive, dir)
-  
+
     Dir.chdir(dir) do
       styles.each do |style|
         maps << create_map(name + " #{style}",        style, date, "6*.img")
@@ -94,18 +94,18 @@ module OpenMtbMap
     maps.each do |map|
       FileUtils.mv(File.join(dir, map), ".")
     end
-    
+
     FileUtils.remove_entry_secure(dir, true)
     maps
   end
-  
+
   def self.extract(archive, output_dir)
     if /srtm/i =~ archive
       unzip(File.join(File.dirname(archive),
                       "openmtbmap_contourline_scripts.zip"),
             output_dir)
     end
-  
+
     unzip(archive, output_dir)
     rename_files_downcase(output_dir)
   end
@@ -167,14 +167,14 @@ module OpenMtbMap
       "sweden"          => "se",
       "switzerland"     => "ch",
     }
-  
+
     prefix     = ".*(openmtbmap_|mtb)(("
     suffix     = ")(_srtm)?)[_\.].*"
     longnames,
     shortnames = [:keys, :values].map { |method|
       Regexp.new(prefix + Regexp.union(translations.send(method).sort).to_s + suffix)
     }
-    
+
     case filename
       when longnames
         translations[filename.gsub(longnames, "\\3")] + filename.gsub(longnames, "\\4")
@@ -184,7 +184,7 @@ module OpenMtbMap
         raise UnknownMapFilename.new("Strange filename #{filename}")
     end
   end
-  
+
   def self.unzip(archive, output_dir)
     unless File.exists? archive
       raise FileNotFoundError.new("File %s does not exist." % archive)
