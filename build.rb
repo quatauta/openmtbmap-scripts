@@ -29,13 +29,13 @@ module OpenMtbMap
                           '--show-profiles=1',
                           '--verbose', ]
 
-  def self.create_map(name, typ, date, pattern)
-    file     = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
-    id       = map_id_from_files(".", pattern)
-    typ_file = Dir.glob("#{typ}*.typ").first()
+  def self.create_map(name, style, date, pattern)
+    file       = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
+    id         = map_id_from_files(".", pattern)
+    style_file = Dir.glob("#{style}*.typ").first()
 
     exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
-                                    :pattern => pattern, :typ => typ_file,
+                                    :pattern => pattern, :style => style_file,
                                     :index => (/6.*\.img/i =~ pattern))
     
     if 0 == exit_status && File.exists?(file)
@@ -52,7 +52,7 @@ module OpenMtbMap
       :index   => true,
       :name    => "GMAPSUPP",
       :pattern => "[67]*.img",
-      :typ     => "a.typ",
+      :style   => "a.typ",
     }.merge!(options)
 
     args  = MKGMAP_DEFAULT_ARGS.dup
@@ -62,7 +62,7 @@ module OpenMtbMap
     args << '--family-name="%s"' % opts[:name]
     args << '--series-name="%s"' % opts[:name]
     args << opts[:pattern]
-    args << '"%s"' % opts[:typ]
+    args << '"%s"' % opts[:style]
 
     exit_status = run_mkgmap(args)
 
@@ -70,19 +70,19 @@ module OpenMtbMap
     exit_status
   end
 
-  def self.create_maps(archive, typ = "clas")
+  def self.create_maps(archive, style = self.DEFAULT_STYLE)
     short_name = short_map_name(archive)
     date       = File.mtime(archive).strftime("%F")
     dir        = File.join(File.dirname(archive), short_name)
-    name       = "Openmtbmap #{short_name} #{date} #{typ}"
+    name       = "Openmtbmap #{short_name} #{date} #{style}"
     maps       = []
 
     OpenMtbMap.extract(archive, dir)
   
     Dir.chdir(dir) do
-      maps << create_map(name,             typ, date, "6*.img")
-      maps << create_map(name + " srtm",   typ, date, "7*.img")
-      #maps << create_map(name + " w/srtm", typ, date, "[67]*.img")
+      maps << create_map(name,             style, date, "6*.img")
+      maps << create_map(name + " srtm",   style, date, "7*.img")
+     #maps << create_map(name + " w/srtm", style, date, "[67]*.img")
     end
 
     maps.compact!
