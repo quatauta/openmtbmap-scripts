@@ -14,6 +14,8 @@ end
 
 
 module OpenMtbMap
+  DEFAULT_STYLE = "wide"
+
   MKGMAP_DEFAULT_ARGS = [ '--area-name',
                           '--check-roundabout-flares',
                           '--check-roundabouts',
@@ -52,7 +54,7 @@ module OpenMtbMap
       :index   => true,
       :name    => "GMAPSUPP",
       :pattern => "[67]*.img",
-      :style   => "a.typ",
+      :style   => "#{self::DEFAULT_STYLE}.typ",
     }.merge!(options)
 
     args  = MKGMAP_DEFAULT_ARGS.dup
@@ -70,7 +72,7 @@ module OpenMtbMap
     exit_status
   end
 
-  def self.create_maps(archive, style = self.DEFAULT_STYLE)
+  def self.create_maps(archive, style = self::DEFAULT_STYLE)
     short_name = short_map_name(archive)
     date       = File.mtime(archive).strftime("%F")
     dir        = File.join(File.dirname(archive), short_name)
@@ -196,7 +198,7 @@ if __FILE__ == $0
   ARGV.each do |archive|
     begin
       puts(archive)
-      maps = OpenMtbMap.create_maps(archive, "clas")
+      maps = OpenMtbMap.create_maps(archive, OpenMtbMap::DEFAULT_STYLE)
       maps.each { |map| puts("  #{map}") }
     rescue StandardError => e
       puts("  %s: %s" % [e.class, e.message])
