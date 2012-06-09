@@ -73,19 +73,21 @@ module OpenMtbMap
     exit_status
   end
 
-  def self.create_maps(archive, style = self::DEFAULT_STYLE)
+  def self.create_maps(archive, styles = [self::DEFAULT_STYLE])
     short_name = short_map_name(archive)
     date       = File.mtime(archive).strftime("%F")
     dir        = File.join(File.dirname(archive), short_name)
-    name       = "Openmtbmap #{short_name} #{date} #{style}"
+    name       = "Openmtbmap #{short_name} #{date}"
     maps       = []
 
     OpenMtbMap.extract(archive, dir)
   
     Dir.chdir(dir) do
-      maps << create_map(name,             style, date, "6*.img")
-      maps << create_map(name + " srtm",   style, date, "7*.img")
-     #maps << create_map(name + " w/srtm", style, date, "[67]*.img")
+      styles.each do |style|
+        maps << create_map(name + " #{style}",        style, date, "6*.img")
+        maps << create_map(name + " #{style} srtm",   style, date, "7*.img")
+       #maps << create_map(name + " #{style} w/srtm", style, date, "[67]*.img")
+      end
     end
 
     maps.compact!
@@ -195,13 +197,14 @@ end
 
 if __FILE__ == $0
   Process.setpriority(Process::PRIO_PROCESS, 0, 19)
-  style = (ARGV & OpenMtbMap::STYLES).last || OpenMtbMap::DEFAULT_STYLE
+  styles = (OpenMtbMap::STYLES & ARGV)
+  styles << OpenMtbMap::DEFAULT_STYLE if styles.empty?
 
   ARGV.each do |archive|
     if File.exists? archive
       begin
         puts(archive)
-        maps = OpenMtbMap.create_maps(archive, style)
+        maps = OpenMtbMap.create_maps(archive, styles)
         maps.each { |map| puts("  #{map}") }
       rescue StandardError => e
         puts("  %s: %s" % [e.class, e.message])
