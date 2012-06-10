@@ -158,7 +158,7 @@ module OpenMtbMap
       :index   => true,
       :name    => "GMAPSUPP",
       :pattern => "[67]*.img",
-      :style   => "#{self::DEFAULT_STYLE}.typ",
+      :style   => "#{DEFAULT_STYLE}.typ",
     }.merge!(options)
 
     args  = MKGMAP_DEFAULT_ARGS.dup
@@ -176,7 +176,7 @@ module OpenMtbMap
     exit_status
   end
 
-  def self.create_maps(archive, styles = [self::DEFAULT_STYLE])
+  def self.create_maps(archive, styles = [DEFAULT_STYLE])
     short_name = short_map_name(archive)
     date       = File.mtime(archive).strftime("%F")
     dir        = File.join(File.dirname(archive), short_name)
