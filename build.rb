@@ -205,7 +205,7 @@ module OpenMtbMap
   end
 
   def self.short_map_name(filename)
-    prefix     = ".*(openmtbmap_|mtb)(("
+    prefix     = ".*(openmtbmap_|mtb|velomap_|velo)(("
     suffix     = ")(_srtm)?)[_\.].*"
     longnames,
     shortnames = [:keys, :values].map { |method|
