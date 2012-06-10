@@ -1,5 +1,0 @@
-ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/mtbalps.exe
-ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/mtbaustria.exe
-ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/mtbgermany.exe
-ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/mtbluxembourg.exe
-ftp://ftp5.gwdg.de/pub/misc/openstreetmap/openmtbmap/mtbswitzerland.exe
