@@ -32,6 +32,72 @@ module OpenMtbMap
                           '--show-profiles=1',
                           '--verbose', ]
 
+  MAP_NAMES = Hash[*%w[ albania                al
+                        alps                   alp
+                        andorra                ad
+                        austria                at
+                        azores                 azores
+                        belarus                bz
+                        belgium                be
+                        bosnia-herzegovina     ba
+                        bulgaria               bg
+                        croatia                hr
+                        cyprus                 cy
+                        czech_republic         cz
+                        denmark                dk
+                        estonia                ee
+                        faroe_islands          fo
+                        finland                fi
+                        france                 fr
+                        germany                de
+                        great_britain          uk
+                        greece                 gr
+                        hungary                hu
+                        iceland                is
+                        ireland                ie
+                        isle_of_man            isleofman
+                        italy                  it
+                        kosovo                 ko
+                        latvia                 lv
+                        liechtenstein          li
+                        lithuania              lt
+                        luxembourg             lu
+                        macedonia              mk
+                        malta                  mt
+                        moldova                md
+                        monaco                 mo
+                        montenegro             cs-mo
+                        netherlands            nl
+                        norway                 no
+                        poland                 pl
+                        portugal               pt
+                        romania                ro
+                        russia-european-part   ru
+                        serbia                 cs-se
+                        slovakia               sk
+                        slovenia               si
+                        spain                  es
+                        sweden                 se
+                        switzerland            ch
+                        turkey                 tr
+                        ukraine                ua
+                        baden-wuerttemberg     de-bw
+                        bayern                 de-by
+                        berlin                 de-be
+                        brandenburg            de-bb
+                        bremen                 de-hb
+                        hamburg                de-hh
+                        hessen                 de-he
+                        mecklenburg-vorpommern de-mv
+                        niedersachsen          de-ni
+                        nordrhein-westfalen    de-nw
+                        rheinland-pfalz        de-rp
+                        saarland               de-sl
+                        sachsen                de-sn
+                        sachsen-anhalt         de-st
+                        schleswig-holstein     de-sh
+                        thueringen             de-th ]]
+
   def self.create_map(name, style, date, pattern)
     file       = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
     id         = map_id_from_files(".", pattern)
@@ -139,84 +205,16 @@ module OpenMtbMap
   end
 
   def self.short_map_name(filename)
-    translations = {
-      "albania"                => "al",
-      "alps"                   => "alp",
-      "andorra"                => "ad",
-      "austria"                => "at",
-      "azores"                 => "azores",
-      "belarus"                => "bz",
-      "belgium"                => "be",
-      "bosnia-herzegovina"     => "ba",
-      "bulgaria"               => "bg",
-      "croatia"                => "hr",
-      "cyprus"                 => "cy",
-      "czech_republic"         => "cz",
-      "denmark"                => "dk",
-      "estonia"                => "ee",
-      "faroe_islands"          => "fo",
-      "finland"                => "fi",
-      "france"                 => "fr",
-      "germany"                => "de",
-      "great_britain"          => "uk",
-      "greece"                 => "gr",
-      "hungary"                => "hu",
-      "iceland"                => "is",
-      "ireland"                => "ie",
-      "isle_of_man"            => "isleofman",
-      "italy"                  => "it",
-      "kosovo"                 => "ko",
-      "latvia"                 => "lv",
-      "liechtenstein"          => "li",
-      "lithuania"              => "lt",
-      "luxembourg"             => "lu",
-      "macedonia"              => "mk",
-      "malta"                  => "mt",
-      "moldova"                => "md",
-      "monaco"                 => "mo",
-      "montenegro"             => "cs-mo",
-      "netherlands"            => "nl",
-      "norway"                 => "no",
-      "poland"                 => "pl",
-      "portugal"               => "pt",
-      "romania"                => "ro",
-      "russia-european-part"   => "ru",
-      "serbia"                 => "cs-se",
-      "slovakia"               => "sk",
-      "slovenia"               => "si",
-      "spain"                  => "es",
-      "sweden"                 => "se",
-      "switzerland"            => "ch",
-      "turkey"                 => "tr",
-      "ukraine"                => "ua",
-      "baden-wuerttemberg"     => "de-bw",
-      "bayern"                 => "de-by",
-      "berlin"                 => "de-be",
-      "brandenburg"            => "de-bb",
-      "bremen"                 => "de-hb",
-      "hamburg"                => "de-hh",
-      "hessen"                 => "de-he",
-      "mecklenburg-vorpommern" => "de-mv",
-      "niedersachsen"          => "de-ni",
-      "nordrhein-westfalen"    => "de-nw",
-      "rheinland-pfalz"        => "de-rp",
-      "saarland"               => "de-sl",
-      "sachsen"                => "de-sn",
-      "sachsen-anhalt"         => "de-st",
-      "schleswig-holstein"     => "de-sh",
-      "thueringen"             => "de-th",
-    }
-
     prefix     = ".*(openmtbmap_|mtb)(("
     suffix     = ")(_srtm)?)[_\.].*"
     longnames,
     shortnames = [:keys, :values].map { |method|
-      Regexp.new(prefix + Regexp.union(translations.send(method).sort).to_s + suffix)
+      Regexp.new(prefix + Regexp.union(MAP_NAMES.send(method).sort).to_s + suffix)
     }
 
     case filename
       when longnames
-        translations[filename.gsub(longnames, "\\3")] + filename.gsub(longnames, "\\4")
+        MAP_NAMES[filename.gsub(longnames, "\\3")] + filename.gsub(longnames, "\\4")
       when shortnames
         filename.gsub(shortnames, "\\2")
       else
