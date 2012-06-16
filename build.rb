@@ -162,13 +162,13 @@ module OpenMtbMap
     }.merge!(options)
 
     args  = MKGMAP_DEFAULT_ARGS.dup
-    args << '--index'           if opts[:index]
-    args << '--family-id="%s"'   % opts[:fid]
-    args << '--description="%s"' % opts[:name]
-    args << '--family-name="%s"' % opts[:name]
-    args << '--series-name="%s"' % opts[:name]
+    args << "--index"           if opts[:index]
+    args << "--family-id='%s'"   % opts[:fid]
+    args << "--description='%s'" % opts[:name]
+    args << "--family-name='%s'" % opts[:name]
+    args << "--series-name='%s'" % opts[:name]
     args << opts[:pattern]
-    args << '"%s"' % opts[:style]
+    args << "'%s'" % opts[:style]
 
     exit_status = run_mkgmap(args)
 
