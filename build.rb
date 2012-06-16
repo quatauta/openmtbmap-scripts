@@ -32,109 +32,109 @@ module OpenMtbMap
                           '--show-profiles=1',
                           '--verbose', ]
 
-  MAP_NAMES = Hash[*( # continents
-                      %w[ africa                    af
-                          asia                      as
-                          australia-oceania         oc-au
-                          central-america           am
-                          europe                    eu
-                          south-america             sa
-                      ] +
-                      # countries
-                      %w[ azerbaijan                az
-                          china                     cn
-                          gcc_states                gcc
-                          india                     in
-                          indonesia                 id
-                          iran                      ir
-                          iraq                      iq
-                          israel_and_palestine      il-ps
-                          japan                     jp
-                          kazakhstan                kz
-                          kyrgyzstan                kg
-                          malaysia_singapore_brunei my-sg-bn
-                          mongolia                  mn
-                          pakistan                  pk
-                          philippines               ph
-                          taiwan                    tw
-                          turkmenistan              tm
-                          uzbekistan                uz
-                          vietnam                   vn
-                          canary_islands            canary
-                          libya                     ly
-                          madagascar                mg
-                          morocco                   ma
-                          somalia                   so
-                          south_africa_and_lesotho  za-ls
-                          tanzania                  tz
-                          albania                   al
-                          alps                      alp
-                          andorra                   ad
-                          austria                   at
-                          azores                    azores
-                          belarus                   bz
-                          belgium                   be
-                          bosnia-herzegovina        ba
-                          bulgaria                  bg
-                          croatia                   hr
-                          cyprus                    cy
-                          czech_republic            cz
-                          denmark                   dk
-                          estonia                   ee
-                          faroe_islands             fo
-                          finland                   fi
-                          france                    fr
-                          germany                   de
-                          great_britain             uk
-                          greece                    gr
-                          hungary                   hu
-                          iceland                   is
-                          ireland                   ie
-                          isle_of_man               isleofman
-                          italy                     it
-                          kosovo                    ko
-                          latvia                    lv
-                          liechtenstein             li
-                          lithuania                 lt
-                          luxembourg                lu
-                          macedonia                 mk
-                          malta                     mt
-                          moldova                   md
-                          monaco                    mo
-                          montenegro                cs-mo
-                          netherlands               nl
-                          norway                    no
-                          poland                    pl
-                          portugal                  pt
-                          romania                   ro
-                          russia-european-part      ru-eu
-                          serbia                    cs-se
-                          slovakia                  sk
-                          slovenia                  si
-                          spain                     es
-                          sweden                    se
-                          switzerland               ch
-                          turkey                    tr
-                          ukraine                   ua
-                      ] +
-                      # Germany, federal states
-                      %w[ baden-wuerttemberg        de-bw
-                          bayern                    de-by
-                          berlin                    de-be
-                          brandenburg               de-bb
-                          bremen                    de-hb
-                          hamburg                   de-hh
-                          hessen                    de-he
-                          mecklenburg-vorpommern    de-mv
-                          niedersachsen             de-ni
-                          nordrhein-westfalen       de-nw
-                          rheinland-pfalz           de-rp
-                          saarland                  de-sl
-                          sachsen                   de-sn
-                          sachsen-anhalt            de-st
-                          schleswig-holstein        de-sh
-                          thueringen                de-th ])]
+  MAP_NAMES_CONTINENTS = Hash[*(%w[ africa                    af
+                                    asia                      as
+                                    australia-oceania         oc-au
+                                    central-america           am
+                                    europe                    eu
+                                    south-america             sa ])]
 
+  MAP_NAMES_COUNTRIES = Hash[*(%w[ azerbaijan                az
+                                   china                     cn
+                                   gcc_states                gcc
+                                   india                     in
+                                   indonesia                 id
+                                   iran                      ir
+                                   iraq                      iq
+                                   israel_and_palestine      il-ps
+                                   japan                     jp
+                                   kazakhstan                kz
+                                   kyrgyzstan                kg
+                                   malaysia_singapore_brunei my-sg-bn
+                                   mongolia                  mn
+                                   pakistan                  pk
+                                   philippines               ph
+                                   taiwan                    tw
+                                   turkmenistan              tm
+                                   uzbekistan                uz
+                                   vietnam                   vn
+                                   canary_islands            canary
+                                   libya                     ly
+                                   madagascar                mg
+                                   morocco                   ma
+                                   somalia                   so
+                                   south_africa_and_lesotho  za-ls
+                                   tanzania                  tz
+                                   albania                   al
+                                   alps                      alp
+                                   andorra                   ad
+                                   austria                   at
+                                   azores                    azores
+                                   belarus                   bz
+                                   belgium                   be
+                                   bosnia-herzegovina        ba
+                                   bulgaria                  bg
+                                   croatia                   hr
+                                   cyprus                    cy
+                                   czech_republic            cz
+                                   denmark                   dk
+                                   estonia                   ee
+                                   faroe_islands             fo
+                                   finland                   fi
+                                   france                    fr
+                                   germany                   de
+                                   great_britain             uk
+                                   greece                    gr
+                                   hungary                   hu
+                                   iceland                   is
+                                   ireland                   ie
+                                   isle_of_man               isleofman
+                                   italy                     it
+                                   kosovo                    ko
+                                   latvia                    lv
+                                   liechtenstein             li
+                                   lithuania                 lt
+                                   luxembourg                lu
+                                   macedonia                 mk
+                                   malta                     mt
+                                   moldova                   md
+                                   monaco                    mo
+                                   montenegro                cs-mo
+                                   netherlands               nl
+                                   norway                    no
+                                   poland                    pl
+                                   portugal                  pt
+                                   romania                   ro
+                                   russia-european-part      ru-eu
+                                   serbia                    cs-se
+                                   slovakia                  sk
+                                   slovenia                  si
+                                   spain                     es
+                                   sweden                    se
+                                   switzerland               ch
+                                   turkey                    tr
+                                   ukraine                   ua])]
+
+  MAP_NAMES_GERMANY = Hash[*(%w[ baden-wuerttemberg        de-bw
+                                 bayern                    de-by
+                                 berlin                    de-be
+                                 brandenburg               de-bb
+                                 bremen                    de-hb
+                                 hamburg                   de-hh
+                                 hessen                    de-he
+                                 mecklenburg-vorpommern    de-mv
+                                 niedersachsen             de-ni
+                                 nordrhein-westfalen       de-nw
+                                 rheinland-pfalz           de-rp
+                                 saarland                  de-sl
+                                 sachsen                   de-sn
+                                 sachsen-anhalt            de-st
+                                 schleswig-holstein        de-sh
+                                 thueringen                de-th ])]
+
+  MAP_NAMES = MAP_NAMES_CONTINENTS.merge(MAP_NAMES_COUNTRIES).merge(MAP_NAMES_GERMANY)
+
+  
   def self.create_map(name, style, date, pattern)
     file       = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
     id         = map_id_from_files(".", pattern)
