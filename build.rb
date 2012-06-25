@@ -277,11 +277,11 @@ if __FILE__ == $0
   files = (ARGV - OpenMtbMap::STYLES)
   files = Dir["{mtb,velo}*.exe"] if files.empty?
 
-  files.each do |archive|
-    if File.exists? archive
+  files.each do |file|
+    if File.exists? file
       begin
-        puts(archive)
-        maps = OpenMtbMap.create_maps(archive, styles)
+        puts(file)
+        maps = OpenMtbMap.create_maps(file, styles)
         maps.each { |map| puts("  #{map}") }
       rescue StandardError => e
         puts("  %s: %s" % [e.class, e.message])
