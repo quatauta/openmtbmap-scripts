@@ -45,7 +45,9 @@ build.rb:
 
   Die heruntergeladenen exe-Dateien werden als Parameter übergeben. Daraus
   werden img-Dateien erstellt. Die Namen der img-Dateien werden ausgehend vom
-  Namen der exe-Datei, dem Dateidatum und dem Typ-Style generiert.
+  Namen der exe-Datei, dem Dateidatum und dem Typ-Style generiert. Falls keine
+  der heruntergeladenen exe-Dateien angegeben wird, werden img-Dateien für alle
+  exe-Dateien erstellt, deren Dateiname mit mtb oder velo beginnt.
 
   Als zusätzliche Parameter können die Typ-Styles angegeben werden, mit denen
   eine img-Datei erstellt werden soll. Wenn kein Typ-Style als Parameter
