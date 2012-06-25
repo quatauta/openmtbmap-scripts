@@ -182,7 +182,7 @@ module OpenMtbMap
       :styles => [DEFAULT_STYLE],
       :srtm   => [:without], # :without. :separate, :integrated
     }.merge!(options)
-    
+
     short_name = short_map_name(opts[:file])
     date       = File.mtime(opts[:file]).strftime("%F")
     dir        = File.join(File.dirname(opts[:file]), short_name)
