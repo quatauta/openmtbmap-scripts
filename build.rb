@@ -176,20 +176,34 @@ module OpenMtbMap
     exit_status
   end
 
-  def self.create_maps(archive, styles = [DEFAULT_STYLE])
-    short_name = short_map_name(archive)
-    date       = File.mtime(archive).strftime("%F")
-    dir        = File.join(File.dirname(archive), short_name)
+  def self.create_maps(options = {})
+    opts = {
+      :file   => "",
+      :styles => [DEFAULT_STYLE],
+      :srtm   => [:without], # :without. :separate, :integrated
+    }.merge!(options)
+    
+    short_name = short_map_name(opts[:file])
+    date       = File.mtime(opts[:file]).strftime("%F")
+    dir        = File.join(File.dirname(opts[:file]), short_name)
     name       = "Openmtbmap #{short_name} #{date}"
     maps       = []
 
-    OpenMtbMap.extract(archive, dir)
+    OpenMtbMap.extract(opts[:file], dir)
 
     Dir.chdir(dir) do
-      styles.each do |style|
-        maps << create_map(name + " #{style}",        style, date, "6*.img")
-        maps << create_map(name + " #{style} srtm",   style, date, "7*.img")
-       #maps << create_map(name + " #{style} w/srtm", style, date, "[67]*.img")
+      opts[:styles].each do |style|
+        if opts[:srtm].include? :without
+          maps << create_map(name + " #{style}", style, date, "6*.img")
+        end
+
+        if opts[:srtm].include? :separate
+          maps << create_map(name + " #{style} srtm", style, date, "7*.img")
+        end
+
+        if opts[:srtm].include? :integrated
+          maps << create_map(name + " #{style} w/srtm", style, date, "[67]*.img")
+        end
       end
     end
 
@@ -281,7 +295,9 @@ if __FILE__ == $0
     if File.exists? file
       begin
         puts(file)
-        maps = OpenMtbMap.create_maps(file, styles)
+        maps = OpenMtbMap.create_maps(:file   => file,
+                                      :styles => styles,
+                                      :srtm   => [:without, :separate])
         maps.each { |map| puts("  #{map}") }
       rescue StandardError => e
         puts("  %s: %s" % [e.class, e.message])
