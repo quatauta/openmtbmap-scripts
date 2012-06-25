@@ -274,7 +274,10 @@ if __FILE__ == $0
   styles = (OpenMtbMap::STYLES & ARGV)
   styles << OpenMtbMap::DEFAULT_STYLE if styles.empty?
 
-  ARGV.each do |archive|
+  files = (ARGV - OpenMtbMap::STYLES)
+  files = Dir["{mtb,velo}*.exe"] if files.empty?
+
+  files.each do |archive|
     if File.exists? archive
       begin
         puts(archive)
