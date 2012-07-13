@@ -19,7 +19,7 @@ chmod a-x *.exe *.tar.gz
 
 if [ mkgmap-latest.tar.gz -nt mkgmap.jar ] ; then
     tar atf mkgmap-latest.tar.gz |
-    grep 'mkgmap\.jar' |
+    fgrep 'mkgmap.jar' |
     while read MKGMAP ; do
         REV="${MKGMAP#mkgmap-r}"
         REV="${REV%/*}"
