@@ -17,6 +17,9 @@ module OpenMtbMap
   DEFAULT_STYLE = "wide"
   STYLES        = %w[ clas easy hike thin trad wide ]
 
+  DEFAULT_SRTM_INTEGRATION = "without"
+  SRTM_INTEGRATIONS        = %w[ without separate integrated ]
+
   MKGMAP_DEFAULT_ARGS = [ '--area-name',
                           '--check-roundabout-flares',
                           '--check-roundabouts',
@@ -180,7 +183,7 @@ module OpenMtbMap
     opts = {
       :file   => "",
       :styles => [DEFAULT_STYLE],
-      :srtm   => [:without], # :without. :separate, :integrated
+      :srtm   => [DEFAULT_SRTM_INTEGRATION],
     }.merge!(options)
 
     short_name = short_map_name(opts[:file])
@@ -193,15 +196,15 @@ module OpenMtbMap
 
     Dir.chdir(dir) do
       opts[:styles].each do |style|
-        if opts[:srtm].include? :without
+        if opts[:srtm].include? "without"
           maps << create_map(name + " #{style}", style, date, "6*.img")
         end
 
-        if opts[:srtm].include? :separate
+        if opts[:srtm].include? "separate"
           maps << create_map(name + " #{style} srtm", style, date, "7*.img")
         end
 
-        if opts[:srtm].include? :integrated
+        if opts[:srtm].include? "integrated"
           maps << create_map(name + " #{style} w/srtm", style, date, "[67]*.img")
         end
       end
@@ -288,7 +291,10 @@ if __FILE__ == $0
   styles = (OpenMtbMap::STYLES & ARGV)
   styles << OpenMtbMap::DEFAULT_STYLE if styles.empty?
 
-  files = (ARGV - OpenMtbMap::STYLES)
+  srtm = (OpenMtbMap::SRTM_INTEGRATIONS & ARGV)
+  srtm << OpenMtbMap::DEFAULT_SRTM_INTEGRATION if srtm.empty?
+
+  files = (ARGV - OpenMtbMap::STYLES - OpenMtbMap::SRTM_INTEGRATIONS)
   files = Dir["{mtb,velo}*.exe"] if files.empty?
 
   files.each do |file|
@@ -297,7 +303,7 @@ if __FILE__ == $0
         puts(file)
         maps = OpenMtbMap.create_maps(:file   => file,
                                       :styles => styles,
-                                      :srtm   => [:without, :separate])
+                                      :srtm   => srtm)
         maps.each { |map| puts("  #{map}") }
       rescue StandardError => e
         puts("  %s: %s" % [e.class, e.message])
