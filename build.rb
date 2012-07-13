@@ -297,6 +297,12 @@ if __FILE__ == $0
   files = ARGV.select { |arg| File.exists? arg }
   files = Dir["{mtb,velo}*.exe"] if files.empty?
 
+  puts "Building maps for Garmin devices"
+  puts "Files:  #{files.join(", ")}"
+  puts "Styles: #{styles.join(", ")}"
+  puts "SRTM:   #{srtm.join(", ")}"
+  puts
+
   files.each do |file|
     begin
       puts(file)
