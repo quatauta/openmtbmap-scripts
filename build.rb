@@ -294,20 +294,18 @@ if __FILE__ == $0
   srtm = (OpenMtbMap::SRTM_INTEGRATIONS & ARGV)
   srtm = OpenMtbMap::DEFAULT_SRTM_INTEGRATIONS if srtm.empty?
 
-  files = (ARGV - OpenMtbMap::STYLES - OpenMtbMap::SRTM_INTEGRATIONS)
+  files = ARGV.select { |arg| File.exists? arg }
   files = Dir["{mtb,velo}*.exe"] if files.empty?
 
   files.each do |file|
-    if File.exists? file
-      begin
-        puts(file)
-        maps = OpenMtbMap.create_maps(:file   => file,
-                                      :styles => styles,
-                                      :srtm   => srtm)
-        maps.each { |map| puts("  #{map}") }
-      rescue StandardError => e
-        puts("  %s: %s" % [e.class, e.message])
-      end
+    begin
+      puts(file)
+      maps = OpenMtbMap.create_maps(:file   => file,
+                                    :styles => styles,
+                                    :srtm   => srtm)
+      maps.each { |map| puts("  #{map}") }
+    rescue StandardError => e
+      puts("  %s: %s" % [e.class, e.message])
     end
   end
 end
