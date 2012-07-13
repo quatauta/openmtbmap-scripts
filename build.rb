@@ -14,11 +14,11 @@ end
 
 
 module OpenMtbMap
-  DEFAULT_STYLE = "wide"
-  STYLES        = %w[ clas easy hike thin trad wide ]
+  DEFAULT_STYLES = %w[ wide ]
+  STYLES         = %w[ clas easy hike thin trad wide ]
 
-  DEFAULT_SRTM_INTEGRATION = "without"
-  SRTM_INTEGRATIONS        = %w[ without separate integrated ]
+  DEFAULT_SRTM_INTEGRATIONS = %w[ without separate ]
+  SRTM_INTEGRATIONS         = %w[ without separate integrated ]
 
   MKGMAP_DEFAULT_ARGS = [ '--area-name',
                           '--check-roundabout-flares',
@@ -161,7 +161,7 @@ module OpenMtbMap
       :index   => true,
       :name    => "GMAPSUPP",
       :pattern => "[67]*.img",
-      :style   => "#{DEFAULT_STYLE}.typ",
+      :style   => "#{DEFAULT_STYLES.first}.typ",
     }.merge!(options)
 
     args  = MKGMAP_DEFAULT_ARGS.dup
@@ -182,8 +182,8 @@ module OpenMtbMap
   def self.create_maps(options = {})
     opts = {
       :file   => "",
-      :styles => [DEFAULT_STYLE],
-      :srtm   => [DEFAULT_SRTM_INTEGRATION],
+      :styles => [DEFAULT_STYLES],
+      :srtm   => [DEFAULT_SRTM_INTEGRATIONS],
     }.merge!(options)
 
     short_name = short_map_name(opts[:file])
@@ -289,10 +289,10 @@ end
 if __FILE__ == $0
   Process.setpriority(Process::PRIO_PROCESS, 0, 19)
   styles = (OpenMtbMap::STYLES & ARGV)
-  styles << OpenMtbMap::DEFAULT_STYLE if styles.empty?
+  styles = OpenMtbMap::DEFAULT_STYLES if styles.empty?
 
   srtm = (OpenMtbMap::SRTM_INTEGRATIONS & ARGV)
-  srtm << OpenMtbMap::DEFAULT_SRTM_INTEGRATION if srtm.empty?
+  srtm = OpenMtbMap::DEFAULT_SRTM_INTEGRATIONS if srtm.empty?
 
   files = (ARGV - OpenMtbMap::STYLES - OpenMtbMap::SRTM_INTEGRATIONS)
   files = Dir["{mtb,velo}*.exe"] if files.empty?
