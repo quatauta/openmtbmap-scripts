@@ -138,17 +138,27 @@ module OpenMtbMap
   MAP_NAMES = MAP_NAMES_CONTINENTS.merge(MAP_NAMES_COUNTRIES).merge(MAP_NAMES_GERMANY)
 
   
-  def self.create_map(name, style, date, pattern)
-    file       = name.downcase.gsub(" ", "_").gsub("/", "-") + ".img"
-    id         = map_id_from_files(".", pattern)
-    style_file = Dir.glob("#{style}*.typ").first()
+  def self.create_map(options = {})
+    opts = {
+      :name    => nil,
+      :style   => nil,
+      :date    => nil,
+      :pattern => "[67]*.img",
+    }.merge!(options)
 
-    exit_status = create_map_mkgmap(:file => file, :fid => id, :name => name,
-                                    :pattern => pattern, :style => style_file,
-                                    :index => (/6.*\.img/i =~ pattern))
+    file       = opts[:name].downcase.gsub(" ", "_").gsub("/", "-") + ".img"
+    id         = map_id_from_files(".", opts[:pattern])
+    style_file = Dir.glob("#{opts[:style]}*.typ").first()
+
+    exit_status = create_map_mkgmap(:file    => file,
+                                    :fid     => id,
+                                    :name    => opts[:name],
+                                    :pattern => opts[:pattern],
+                                    :style   => style_file,
+                                    :index   => (/6.*\.img/i =~ opts[:pattern]))
 
     if 0 == exit_status && File.exists?(file)
-      file_time = Time.parse(date)
+      file_time = Time.parse(opts[:date])
       File.utime(file_time, file_time, file)
       file
     end
@@ -197,15 +207,18 @@ module OpenMtbMap
     Dir.chdir(dir) do
       opts[:styles].each do |style|
         if opts[:srtm].include? "without"
-          maps << create_map(name + " #{style}", style, date, "6*.img")
+          maps << create_map(:name => name + " #{style}", :style => style,
+                             :date => date, :pattern => "6*.img")
         end
 
         if opts[:srtm].include? "separate"
-          maps << create_map(name + " #{style} srtm", style, date, "7*.img")
+          maps << create_map(:name => name + " #{style} srtm", :style => style,
+                             :date => date, :pattern => "7*.img")
         end
 
         if opts[:srtm].include? "integrated"
-          maps << create_map(name + " #{style} w/srtm", style, date, "[67]*.img")
+          maps << create_map(:name => name + " #{style} w/srtm", :style => style,
+                             :date => date, :pattern => "[67]*.img")
         end
       end
     end
