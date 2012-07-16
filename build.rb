@@ -301,10 +301,10 @@ end
 
 if __FILE__ == $0
   Process.setpriority(Process::PRIO_PROCESS, 0, 19)
-  styles = (OpenMtbMap::STYLES & ARGV)
+  styles = OpenMtbMap::STYLES & ARGV
   styles = OpenMtbMap::DEFAULT_STYLES if styles.empty?
 
-  srtm = (OpenMtbMap::SRTM_INTEGRATIONS & ARGV)
+  srtm = OpenMtbMap::SRTM_INTEGRATIONS & ARGV
   srtm = OpenMtbMap::DEFAULT_SRTM_INTEGRATIONS if srtm.empty?
 
   files = ARGV.select { |arg| File.exists? arg }
