@@ -308,7 +308,7 @@ if __FILE__ == $0
   srtm = OpenMtbMap::DEFAULT_SRTM_INTEGRATIONS if srtm.empty?
 
   files = ARGV.select { |arg| File.exists? arg }
-  files = Dir["{mtb,velo}*.exe"] if files.empty?
+  files = Dir["{mtb,velo}*.exe"].sort if files.empty?
 
   puts "Building maps for Garmin devices"
   puts "Files:  #{files.join(", ")}"
