@@ -1,4 +1,5 @@
 *.exe
+*.exe_*
 *.img
 *.zip
 mkgmap*.jar
