@@ -316,15 +316,20 @@ if __FILE__ == $0
   puts "SRTM:   #{srtm.join(", ")}"
   puts
 
-  files.each do |file|
-    begin
-      puts(file)
-      maps = OpenMtbMap.create_maps(:file   => file,
-                                    :styles => styles,
-                                    :srtm   => srtm)
-      maps.each { |map| puts("  #{map}") }
-    rescue StandardError => e
-      puts("  %s: %s" % [e.class, e.message])
+  begin
+    files.each do |file|
+      begin
+        puts(file)
+        maps = OpenMtbMap.create_maps(:file   => file,
+                                      :styles => styles,
+                                      :srtm   => srtm)
+        maps.each { |map| puts("  #{map}") }
+      rescue StandardError => e
+        puts("  %s: %s" % [e.class, e.message])
+      end
     end
+  rescue Interrupt => e
+    puts("")
+    puts("Interrupted.")
   end
 end
