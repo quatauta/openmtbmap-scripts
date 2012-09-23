@@ -20,20 +20,20 @@ module OpenMtbMap
   DEFAULT_SRTM_INTEGRATIONS = %w[ without separate ]
   SRTM_INTEGRATIONS         = %w[ without separate integrated ]
 
-  MKGMAP_DEFAULT_ARGS = [ '--area-name',
-                          '--check-roundabout-flares',
-                          '--check-roundabouts',
-                          '--gmapsupp',
-                          '--lower-case',
-                          '--make-all-cycleways',
-                          '--make-cycleways',
-                          '--make-opposite-cycleways',
-                          '--make-poi-index',
-                          '--max-jobs',
-                          '--net',
-                          '--route',
-                          '--show-profiles=1',
-                          '--verbose', ]
+  MKGMAP_DEFAULT_ARGS = %w[ --area-name
+                            --check-roundabout-flares
+                            --check-roundabouts
+                            --gmapsupp
+                            --lower-case
+                            --make-all-cycleways
+                            --make-cycleways
+                            --make-opposite-cycleways
+                            --make-poi-index
+                            --max-jobs
+                            --net
+                            --route
+                            --show-profiles=1
+                            --verbose ]
 
   MAP_NAMES_CONTINENTS = Hash[*(%w[ africa                    af
                                     asia                      as
