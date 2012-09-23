@@ -24,12 +24,14 @@ module OpenMtbMap
                             --check-roundabout-flares
                             --check-roundabouts
                             --gmapsupp
+                            --location-autofill=is_in
                             --lower-case
                             --make-all-cycleways
                             --make-cycleways
                             --make-opposite-cycleways
                             --make-poi-index
                             --max-jobs
+                            --name-tag-list=name:de,name:lu,int_name,name
                             --net
                             --route
                             --show-profiles=1
