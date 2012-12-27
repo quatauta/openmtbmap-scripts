@@ -24,6 +24,9 @@ module OpenMtbMap
                             --check-roundabout-flares
                             --check-roundabouts
                             --gmapsupp
+                            --index
+                            --latin1
+                            --link-pois-to-ways
                             --location-autofill=is_in
                             --lower-case
                             --make-all-cycleways
@@ -33,6 +36,7 @@ module OpenMtbMap
                             --max-jobs
                             --name-tag-list=name:de,name:lu,int_name,name
                             --net
+                            --process-destination
                             --route
                             --show-profiles=1
                             --verbose ]
