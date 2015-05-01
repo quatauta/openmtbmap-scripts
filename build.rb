@@ -20,10 +20,12 @@ module OpenMtbMap
   DEFAULT_SRTM_INTEGRATIONS = %w[ without separate ]
   SRTM_INTEGRATIONS         = %w[ without separate integrated ]
 
-  MKGMAP_DEFAULT_ARGS = %w[ --area-name
+  MKGMAP_DEFAULT_ARGS = %w[ --add-pois-to-lines
+                            --area-name
                             --check-roundabout-flares
                             --check-roundabouts
                             --gmapsupp
+                            --housenumbers
                             --index
                             --latin1
                             --link-pois-to-ways
@@ -37,8 +39,10 @@ module OpenMtbMap
                             --name-tag-list=name:de,name:lu,int_name,name
                             --net
                             --process-destination
+                            --process-exits
                             --route
                             --show-profiles=1
+                            --unicode
                             --verbose ]
 
   MAP_NAMES_CONTINENTS = Hash[*(%w[ africa                    af
