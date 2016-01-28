@@ -55,6 +55,7 @@ module OpenMtbMap
   MAP_NAMES_COUNTRIES = Hash[*(%w[ azerbaijan                az
                                    china                     cn
                                    gcc_states                gcc
+                                   canary-islands            es-ic
                                    india                     in
                                    indonesia                 id
                                    iran                      ir
