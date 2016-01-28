@@ -24,11 +24,13 @@ if [ mkgmap-latest.tar.gz -nt mkgmap.jar ] ; then
         REV="${MKGMAP#mkgmap-r}"
         REV="${REV%/*}"
         NEW="mkgmap-${REV}.jar"
-        tar vaxf mkgmap-latest.tar.gz "${MKGMAP}" &&
-            mv  "${MKGMAP}" "${NEW}" &&
-            rm -f "mkgmap.jar" &&
-            ln -sv "${NEW}" "mkgmap.jar" &&
-            rm -rf mkgmap-r*/
+        tar vaxf mkgmap-latest.tar.gz "${MKGMAP}" "${MKGMAP%/*}/lib/"
+        mv "${MKGMAP}" "${NEW}"
+        rm -rf "./lib/"
+        mv "${MKGMAP%/*}/lib/" .
+        rm -f "mkgmap.jar"
+        ln -sv "${NEW}" "mkgmap.jar"
+        rm -rf mkgmap-r*/
     done
 fi
 
