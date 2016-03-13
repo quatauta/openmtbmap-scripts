@@ -24,10 +24,10 @@ module OpenMtbMap
                             --area-name
                             --check-roundabout-flares
                             --check-roundabouts
+                            --cycle-map
                             --gmapsupp
                             --housenumbers
                             --index
-                            --latin1
                             --link-pois-to-ways
                             --location-autofill=is_in
                             --lower-case
@@ -38,11 +38,14 @@ module OpenMtbMap
                             --max-jobs
                             --name-tag-list=name:de,name:lu,int_name,name
                             --net
+                            --poi-address
+                            --preserve-element-order
                             --process-destination
                             --process-exits
                             --route
                             --show-profiles=1
                             --unicode
+                            --x-split-name-index
                             --verbose ]
 
   MAP_NAMES_CONTINENTS = Hash[*(%w[ africa                    af
